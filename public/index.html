@@ -1,102 +1,48 @@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <title>Revanth Chat</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 <body>
-   <div class="chat-container">
-
-    <div class="chat-header">
-        <div class="logo">
-            <i class="fab fa-facebook-messenger"></i>
-            <h3>Messenger</h3>
-        </div>
-        <p id="your-name">Your Name</p>
-    </div>
-<!--   -->
-    <div class="chat-section">
-        <div class="main-wrapper">
-            <div class="chat-content">
-                <div class="message">
-                    <div class="message-row other-message"></div>
-                    <div class="message-row you-message"></div>
-                </div>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="logo">
+                <i class="fab fa-facebook-messenger"></i>
+                <h3>Messenger</h3>
             </div>
-
-            <form class="msg-text">
-                <input type="text" name="msg" id="msg" placeholder="Type Message Here..." autocomplete="off">
-                <button id="btn-send">
-                    <i class="fas fa-paper-plane">Send</i>
-                </button>
-            </form>
-
+            <p id="your-name">Your Name</p>
         </div>
+        <div class="chat-section">
+            <div class="main-wrapper">
+                <div class="chat-content">
+                    <div class="message">
+                        <div class="message-row other-message">
+                            
+                        </div>  
+                        <div class="message-row you-message">
+                            
+                        </div>
+                    </div>
+
+                </div>
+                <form class="msg-tex">
+                    <input type="text" name="msg" id="msg"
+                    placeholder="Type Massage Here...." autocomplete="off">
+                    <button id="btn-send">
+                        <i class="fas fa-paper-plane"> Send</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
     </div>
-</div>
 
-   <script src="./app.js"></script>
-   <script src="/socket.io/socket.io.js"></script>
-   
-<script>
-  const socket = io();
-  const msgText=document.querySelector('#msg');
-  const btnSend=document.querySelector('#btn-send');
-  const chatBox=document.querySelector('.chat-content');
-  const displayMsg=document.querySelector('.message');
-  let name;
-  do{
-    name=prompt("what is your name?")
-  }while(!name)
-
-
-  document.querySelector('#your-name').textContent=name;
-
-  msgText.focus(); 
-
-  btnSend.addEventListener('click',(e)=>{
-    e.preventDefault();
-    sendMsg(msgText.value);
-    msgText.value='';
-    msgText.focus();    
-    chatBox.scrollTop=chatBox.scrollHeight;
-  })
-  const sendMsg=(message)=>{
-    let msg={
-        user:name,
-        message:message.trim()
-    }
-    display(msg,'you-message');
-    socket.emit('sendMessage',msg);
-  }
-  
-  socket.on('sendToAll',msg=>{
-        display(msg,'other-message');
-        chatBox.scrollTop=chatBox.scrollHeight;
-})
-
-    const display=(msg,type)=>{
-    const msgDiv=document.createElement('div');
-    let className=type;
-    msgDiv.classList.add(className,'message-row');
-    let times=new Date().toLocaleTimeString();
-
-    let innerText= `
-                    <div class="message-title">
-                     <span>${msg.user}</span>
-                      </div>
-                      <div class="message-text">${msg.message}</div>
-                      <div class="message-time">
-                        ${times}
-                      </div>
-    `;
-    msgDiv.innerHTML=innerText;
-    displayMsg.appendChild(msgDiv);
-}
-
-</script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
